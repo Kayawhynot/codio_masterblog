@@ -16,7 +16,7 @@ def index():
 
     Reads all posts from posts.json and renders them via index.html.
     """
-    with open('posts.json', 'r') as file:
+    with open('posts.json', 'r', encoding='utf-8') as file:
         blog_posts = json.load(file)
     return render_template('index.html', posts=blog_posts)
 
@@ -30,7 +30,7 @@ def add():
     On GET: renders the empty add.html form.
     """
     if request.method == 'POST':
-        with open('posts.json', 'r') as file:
+        with open('posts.json', 'r', encoding='utf-8') as file:
             blog_posts = json.load(file)
 
         all_ids = []
@@ -50,7 +50,7 @@ def add():
 
         blog_posts.append(new_post)
 
-        with open('posts.json', 'w') as file:
+        with open('posts.json', 'w', encoding='utf-8') as file:
             json.dump(blog_posts, file)
 
         return redirect(url_for('index'))
@@ -68,7 +68,7 @@ def delete(post_id):
     if post is None:
         return 'Post not found', 404
 
-    with open('posts.json', 'r') as file:
+    with open('posts.json', 'r', encoding='utf-8') as file:
         blog_posts = json.load(file)
 
     for post in blog_posts:
@@ -76,7 +76,7 @@ def delete(post_id):
             blog_posts.remove(post)
             break
 
-    with open('posts.json', 'w') as file:
+    with open('posts.json', 'w', encoding='utf-8') as file:
         json.dump(blog_posts, file)
 
     return redirect(url_for('index'))
@@ -95,7 +95,7 @@ def update(post_id):
         return 'Post not found', 404
 
     if request.method == 'POST':
-        with open('posts.json', 'r') as file:
+        with open('posts.json', 'r', encoding='utf-8') as file:
             blog_posts = json.load(file)
 
         for post in blog_posts:
@@ -105,7 +105,7 @@ def update(post_id):
                 post['content'] = request.form.get('content')
                 break
 
-        with open('posts.json', 'w') as file:
+        with open('posts.json', 'w', encoding='utf-8') as file:
             json.dump(blog_posts, file)
 
         return redirect(url_for('index'))
@@ -115,7 +115,7 @@ def update(post_id):
 
 def fetch_post_by_id(post_id):
     """Return the post dict with the given id, or None if not found."""
-    with open('posts.json', 'r') as file:
+    with open('posts.json', 'r', encoding='utf-8') as file:
         all_posts = json.load(file)
         for post in all_posts:
             if post['id'] == post_id:
